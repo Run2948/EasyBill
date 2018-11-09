@@ -36,6 +36,7 @@ import com.borun.easybill.utils.SharedPUtils;
 import com.borun.easybill.utils.SnackbarUtils;
 import com.borun.easybill.utils.StringUtils;
 import com.borun.easybill.widget.CommonItemLayout;
+import com.bumptech.glide.request.target.Target;
 
 import java.io.File;
 import java.io.IOException;
@@ -113,7 +114,42 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
             //加载到布局中
             initData();
             //加载当前头像
-            Glide.with(mContext).load(currentUser.getImage()).into(iconIv);
+            //Log.d(TAG, "initData: "+currentUser.getImage());
+            //Glide.with(mContext).load(Constants.BASE_URL+ Constants.IMAGE_USER + currentUser.getImage()).into(iconIv);
+            String imgPath = Environment
+                    .getExternalStorageDirectory().getAbsolutePath() + "/" + currentUser.getImage();
+            File file = new File(imgPath);
+            //判断头像文件是否存在
+            if (file.exists()) {
+                //加载本地图片
+                Glide.with(this).load(file).into(iconIv);
+            } else {
+                //加载网络图片到本地
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = Glide.with(UserInfoActivity.this)
+                                    .load(Constants.BASE_URL + Constants.IMAGE_USER + currentUser.getImage())
+                                    .asBitmap()
+                                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                    .get();
+                            if (bitmap != null) {
+                                iconIv.setImageBitmap(bitmap);
+                                Log.i(TAG, "SD可写：" + Environment.getExternalStorageDirectory().canWrite() +
+                                        "SD可读：" + Environment.getExternalStorageDirectory().canRead());
+                                String imgPath = ImageUtils.savePhoto(bitmap, Environment
+                                        .getExternalStorageDirectory().getAbsolutePath(), currentUser.getImage());
+
+                                Log.i(TAG, imgPath);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
         }
 
         presenter = new UserInfoPresenterImp(this);
