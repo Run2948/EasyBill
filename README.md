@@ -1,16 +1,15 @@
 # 简易记账 EasyBill
-:closed_book:采用MVP架构的Android记账本APP
 
 在我们生活中经常不知道钱花在什么地方，但是我们自己又不是很想写在记账本上进行管理,因为关于记账，我们每个人都有自己的需求，虽然市面上有许多优秀的记账app,所以对于自己来说，开发一个属于自己的软件来记账是个非常有趣的事情，但一直因为时间安排的原因未能实现。 
-所以趁着本学期程序实践的机会，顺便做一个项目，后台采用ssm框架，本人小白，如果有不足的地方，希望看到的大神给予指点建议，不胜感激！
+所以趁着本学期程序实践的机会，顺便做一个项目---采用MVP架构的Android记账本APP，后台采用ssm框架，本人小白，如果有不足的地方，希望看到的大神给予指点建议，不胜感激！
 
 ### 下载资源
-应用下载地址：https://github.com/Run2948/EasyBill/blob/master/screenshots/简易记账 v1.2.apk
+应用下载地址：[简易记账 v1.2.apk](https://github.com/Run2948/EasyBill/blob/master/screenshots/简易记账v1.2.apk)
 
 ### 版本日志
 
 v1.2.0: 2018.10.03
-- 后台地址(采用ssm框架)：https://github.com/Run2948/ssmBillBook
+- 后台地址(采用ssm框架)：[https://github.com/Run2948/ssmBillBook](https://github.com/Run2948/ssmBillBook)
 
 v0.4.1: 2018.03.31
 - 添加本地账单；
