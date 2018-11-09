@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">简易记账</string>
+
+
+    <!-- main activity -->
+    <string name="first_title">明细</string>
+    <string name="second_title">记一笔</string>
+    <string name="third_title">报表</string>
+    <string name="four_title">账户</string>
+    <string name="navigation_drawer_open">打开侧滑栏</string>
+    <string name="navigation_drawer_close">关闭侧滑栏</string>
+
+    <!--login activity-->
+    <string name="login_user_name">Tell me your register name or email.</string>
+    <string name="login_password">Tell me your password (be quiet!).</string>
+    <string name="register_user_name">Show me a cool user name!</string>
+    <string name="register_user_email">You can regain your password by email.</string>
+    <string name="register_password">I can keep secret!</string>
+
+    <!--about activity-->
+    <string name="about">关于简易记账</string>
+    <string name="about_introduce">简洁、便捷、纯粹记账\n\n
+        ------简易记账是啥------\n\n
+        嗯~没错我就是个记账APP，功能不花哨主打实用，算账本来就是头疼事还整那些花里胡哨的功能干啥呢？所以我们这款记账APP就是简洁！实用！！！\n\n
+        ------简易记账主要功能------\n\n
+        - 支持多账户记账\n
+        - 时间轴记账单，账单一目了然\n
+        - 支持账单数据导出，方便各个场景使用\n
+        - 数据同步，换手机，刷系统，账单轻松恢复\n
+        - 账单统计功能，月度消费分析、消费统计\n\n
+        ps:请勿在软件中填写个人隐私信息
+    </string>
+    <string name="app_name_with_introduce">简易记账 - 理财的好帮手</string>
+    <string name="developers">开发人员: Missouri ＆ 班纳\n
+        ---------------\n
+        <a href='https://github.com/Run2948'>https://github.com/Run2948/EasyBill</a>
+        \n---------------\n
+        欢迎大家star和fork
+    </string>
+
+    <!--other-->
+    <string name="rmb">¥</string>
+    <string name="login">登录</string>
+    <string name="forget_password">忘记密码？</string>
+    <string name="register">注册</string>
+    <string name="get_code">获取验证码</string>
+    <string name="reset_get">重新获取</string>
+    <string name="verify_phone">验证手机号</string>
+    <string name="verify">验证</string>
+    <string name="finish">完成</string>
+    <string name="income">收入</string>
+    <string name="cost">支出</string>
+    <string name="save">保存</string>
+    <string name="money_normal">0.00</string>
+    <string name="say_something">说点什么吧&#8230;</string>
+    <string name="cur_month_cost">当月支出</string>
+    <string name="cur_month_income">当月收入</string>
+    <string name="icon">头像</string>
+    <string name="username">用户名</string>
+    <string name="sex">性别</string>
+    <string name="age">年龄</string>
+    <string name="phone">电话</string>
+    <string name="email">邮箱</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="not_set">未设置</string>
+    <string name="year">岁</string>
+    <string name="setting">设置</string>
+    <!--Loading-->
+    <string name="load_msg">正在加载中&#8230;</string>
+    <string name="load_update">正在修改中&#8230;</string>
+    <string name="load_delete">正在删除中&#8230;</string>
+    <string name="load_send_code">正在发送验证码&#8230;</string>
+    <string name="load_verify">正在验证中&#8230;</string>
+    <string name="load_switch">正在切换中&#8230;</string>
+    <string name="load_login">正在登录中&#8230;</string>
+    <string name="load_sign">正在注册中&#8230;</string>
+
+</resources>
