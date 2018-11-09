@@ -225,13 +225,13 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case GENDER_MAN: // 男性
-                                    if(currentUser.getGender().equals("女")){
+                                    if (currentUser.getGender().equals("女")) {
                                         currentUser.setGender("男");
                                         doUpdate();
                                     }
                                     break;
                                 case GENDER_FEMALE: // 女性
-                                    if(currentUser.getGender().equals("男")){
+                                    if (currentUser.getGender().equals("男")) {
                                         currentUser.setGender("女");
                                         doUpdate();
                                     }
@@ -385,7 +385,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
         if (Build.VERSION.SDK_INT >= 24) {
             openCameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             tempUri = FileProvider.getUriForFile(UserInfoActivity.this,
-                    "com.copasso.cocobill.fileProvider", file);
+                    "com.borun.easybill.fileProvider", file);
         } else {
             tempUri = Uri.fromFile(new File(Environment
                     .getExternalStorageDirectory(), "image.jpg"));
@@ -448,6 +448,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
         String imagePath = ImageUtils.savePhoto(bitmap, Environment
                 .getExternalStorageDirectory().getAbsolutePath(), imagename + ".png");
         currentUser.setImage(imagename + ".png");
+        //Log.d(TAG, "uploadPic: "+imagename + ".png");
         SharedPUtils.setCurrentUser(UserInfoActivity.this, currentUser);
         if (imagePath != null) {
             OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -460,18 +461,19 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
 
             Request request = new Request.Builder()
                     .header("Authorization", "Client-ID " + "...")
-                    .url(Constants.BASE_URL + Constants.IMAGE_USER)
+                    .url(Constants.BASE_URL + Constants.USER_IMAGE_UPLOAD)
                     .post(requestBody)
                     .build();
 
             mOkHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-
+                    Log.d(TAG, "onFailure: " + e);
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    //Log.d(TAG, "onResponse: " + response.body().string());
                     doUpdate();
                 }
             });

@@ -20,6 +20,7 @@ public class Constants {
     public static final String NOTE_SORT_UPDATE = "/note/sort/update";
     public static final String NOTE_PAY_ADD = "/note/pay/add";
     public static final String NOTE_PAY_UPDATE = "/note/pay/update";
+    public static final String USER_IMAGE_UPLOAD = "/file/upload/";
     public static final String IMAGE_USER = "/upload/";
     public static final String IMAGE_SORT = "/upload/noteImg/sort/";
     public static final String IMAGE_PAY = "/upload/noteImg/pay/";
@@ -32,7 +33,7 @@ public class Constants {
     //当前用户
     public static int currentUserId = 0;
 
-    public static String EXTRA_IS_UPDATE_THEME = "com.copasso.cocobill.IS_UPDATE_THEME";
+    public static String EXTRA_IS_UPDATE_THEME = "com.borun.easybill.IS_UPDATE_THEME";
 
     //默认note(账单分类和支付方式)
     public static String BILL_NOTE = "{\"status\":100,\"message\":\"处理成功！\"," +
