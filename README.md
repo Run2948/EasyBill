@@ -57,3 +57,8 @@ v0.3.1: 2017.12.28
  5. Android-PickerView: https://github.com/Bigkoo/Android-PickerView
  6. AwesomeSplash: https://github.com/ViksaaSkool/AwesomeSplash
 
+### 更新.gitignore
+ 1. git rm -r --cached .                //清空缓存
+ 2. git add .                           //重新提交
+ 3. git commit -m "update .gitignore"   //暂存本地
+ 4. git push                            //推送远端
