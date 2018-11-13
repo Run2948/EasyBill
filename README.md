@@ -76,6 +76,5 @@ v0.3.1: 2017.12.28
 * 当修改完idea.system.path后，默认的插件路径也在这个路径下的plugins目录下了。
 * 所以我们要重新指定一下插件的目录：`idea.plugins.path=${idea.system.path}/plugins`。
 
-### [
-Android Studio安装插件 重启后保存不上的问题](https://blog.csdn.net/qq_27818541/article/details/51558955)
+### [Android Studio安装插件 重启后保存不上的问题](https://blog.csdn.net/qq_27818541/article/details/51558955)
 * 在idea.properties文件中最后一行添加如下一句话：`idea.plugins.path=${idea.system.path}/plugins`
