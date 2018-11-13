@@ -62,3 +62,20 @@ v0.3.1: 2017.12.28
  2. git add .                           //重新提交
  3. git commit -m "update .gitignore"   //暂存本地
  4. git push                            //推送远端
+
+### [ERROR: x86 emulation currently requires hardware acceleration!的解决方法](https://blog.csdn.net/chjqxxxx/article/details/52541714)
+##### 前提： CPU 支持 VT （Virtualization Technology）， 而且仅限于 Intel CPU
+* 首先要打开SDK Manager 下载intel haxm，下载位置：android-sdk\extras\intel\Hardware_Accelerated_Execution_Manager\IntelHaxm.exe
+* 下载完毕后运行IntelHaxm.exe(intelhaxm-android.exe)安装，完毕后命令行执行 sc query intelhaxm ，如果 STATE RUNNING 表示安装成功 。(如果BIOS里面没有开启Virtualization Technology，安装的时候会有相关错误提示，进BIOS开启就好)
+* 打开 SDK Manager 下载 intel x86镜像创建AVD，CPU选择 intel atom x86
+
+### [如何解决android studio不能在线安装插件的问题](https://blog.csdn.net/yyongchao/article/details/81016597)
+* 勾掉use secure connction，问题即可完美解决。
+
+### [修改Android Studio 的默认配置后，插件无法安装和使用问题](https://blog.csdn.net/wohyd/article/details/80090503)
+* 当修改完idea.system.path后，默认的插件路径也在这个路径下的plugins目录下了。
+* 所以我们要重新指定一下插件的目录：`idea.plugins.path=${idea.system.path}/plugins`。
+
+### [
+Android Studio安装插件 重启后保存不上的问题](https://blog.csdn.net/qq_27818541/article/details/51558955)
+* 在idea.properties文件中最后一行添加如下一句话：`idea.plugins.path=${idea.system.path}/plugins`
