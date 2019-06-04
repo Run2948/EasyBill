@@ -169,7 +169,7 @@ public class ForgetPasswordActivity extends BaseActivity {
             Toast.makeText(mContext, "请输入注册邮箱", Toast.LENGTH_SHORT).show();
             return;
         }
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("username", username);
         params.put("mail", mail);
         OkHttpUtils.getInstance().get(Constants.BASE_URL + Constants.USER_FORGETPW, params,
@@ -202,7 +202,7 @@ public class ForgetPasswordActivity extends BaseActivity {
         } else if (!RegexUtils.checkPassword(newPassword)) {
             ToastUtils.show(mContext, "请输入正确的密码");
         } else {
-            Map<String, String> params = new HashMap<>();
+            Map<String, Object> params = new HashMap<>();
             params.put("username", username);
             params.put("password", newPassword);
             params.put("code", code);

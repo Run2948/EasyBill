@@ -126,7 +126,7 @@ public class MonthDetailFragment extends BaseFragment implements MonthDetailView
             public void OnEditClick(BBill item, int section, int offset) {
                 Intent intent = new Intent(mContext, BillEditActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putLong("id", item.getId());
+                bundle.putString("id", item.getId());
                 bundle.putInt("rid", item.getRid());
                 bundle.putString("sortName", item.getSortName());
                 bundle.putString("payName", item.getPayName());
@@ -173,7 +173,7 @@ public class MonthDetailFragment extends BaseFragment implements MonthDetailView
      * @param year
      * @param month
      */
-    private void getBills(int userid, String year, String month) {
+    private void getBills(String userid, String year, String month) {
 
         dataYear.setText(year + " 年");
         dataMonth.setText(month);
@@ -229,7 +229,7 @@ public class MonthDetailFragment extends BaseFragment implements MonthDetailView
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.float_btn:  //添加
-                if (Constants.currentUserId == 0) {
+                if (Constants.currentUserId == null) {
                     Toast.makeText(getContext(), "请先登陆", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(getContext(), BillAddActivity.class);

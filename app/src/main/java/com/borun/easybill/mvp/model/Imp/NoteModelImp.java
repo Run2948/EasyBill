@@ -29,7 +29,7 @@ public class NoteModelImp implements NoteModel{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<BPay>>() {
                     @Override
-                    protected void onSuccees(List<BPay> bPays) throws Exception {
+                    protected void onSuccess(List<BPay> bPays) throws Exception {
                         note.setPayinfo(bPays);
                     }
                     @Override
@@ -42,7 +42,7 @@ public class NoteModelImp implements NoteModel{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<BSort>>(){
                     @Override
-                    protected void onSuccees(List<BSort> sorts) throws Exception {
+                    protected void onSuccess(List<BSort> sorts) throws Exception {
                         note.setOutSortlis(sorts);
                     }
                     @Override
@@ -55,7 +55,7 @@ public class NoteModelImp implements NoteModel{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<BSort>>(){
                     @Override
-                    protected void onSuccees(List<BSort> sorts) throws Exception {
+                    protected void onSuccess(List<BSort> sorts) throws Exception {
                         note.setInSortlis(sorts);
                         listener.onSuccess(note);
                     }
@@ -77,12 +77,12 @@ public class NoteModelImp implements NoteModel{
     }
 
     @Override
-    public void deleteSort(Long id) {
+    public void deleteSort(String id) {
         LocalRepository.getInstance().deleteBSortById(id);
     }
 
     @Override
-    public void deletePay(Long id) {
+    public void deletePay(String id) {
         LocalRepository.getInstance().deleteBPayById(id);
     }
 

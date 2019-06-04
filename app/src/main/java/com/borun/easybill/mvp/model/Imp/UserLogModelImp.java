@@ -43,7 +43,7 @@ public class UserLogModelImp implements UserLogModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<UserBean>() {
                     @Override
-                    protected void onSuccees(UserBean userBean) throws Exception {
+                    protected void onSuccess(UserBean userBean) throws Exception {
                         listener.onSuccess(userBean);
                     }
 
@@ -62,7 +62,7 @@ public class UserLogModelImp implements UserLogModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<UserBean>() {
                     @Override
-                    protected void onSuccees(UserBean userBean) throws Exception {
+                    protected void onSuccess(UserBean userBean) throws Exception {
                         listener.onSuccess(userBean);
                     }
 

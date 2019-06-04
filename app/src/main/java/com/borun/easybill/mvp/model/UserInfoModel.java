@@ -2,7 +2,7 @@ package com.borun.easybill.mvp.model;
 
 public interface UserInfoModel {
 
-    void update(int id, String username, String gengder, String phone, String mail);
+    void update(String id, String username, String gengder, String phone, String mail);
 
     void onUnsubscribe();
 }

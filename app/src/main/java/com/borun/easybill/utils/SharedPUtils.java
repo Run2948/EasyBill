@@ -27,7 +27,6 @@ public class SharedPUtils {
         return null;
     }
 
-
     /**
      * 设置当前用户
      */
@@ -38,7 +37,7 @@ public class SharedPUtils {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("username", userBean.getUsername());
         editor.putString("email", userBean.getMail());
-        editor.putInt("id", userBean.getId());
+        editor.putString("id", userBean.getId());
         editor.putString("jsonStr", jsonStr);
         editor.commit();
     }
@@ -53,7 +52,7 @@ public class SharedPUtils {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("username", userBean.getUsername());
         editor.putString("email", userBean.getMail());
-        editor.putInt("id", userBean.getId());
+        editor.putString("id", userBean.getId());
         editor.putString("jsonStr", jsonStr);
         editor.commit();
     }

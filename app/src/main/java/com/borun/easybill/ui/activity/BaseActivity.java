@@ -18,28 +18,26 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.Toast;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import com.borun.easybill.model.bean.remote.UserBean;
 import com.borun.easybill.utils.ActivityManagerUtils;
 import com.borun.easybill.utils.SharedPUtils;
 import com.borun.easybill.utils.ThemeManager;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected static String TAG;
     protected Activity mContext;
     //当前用户
     protected UserBean currentUser;
     private Unbinder mUnBinder;
-
     // 要申请的权限
     private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private AlertDialog dialog;
-
-    protected static String TAG;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //注册 ButterKnife
         mUnBinder = ButterKnife.bind(this);
         //获取当前账户信息
-        currentUser= SharedPUtils.getCurrentUser(this);
+        currentUser = SharedPUtils.getCurrentUser(this);
 
         // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -73,6 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         initEventAndData();
+
         ActivityManagerUtils.mActivities.add(this);
     }
 
@@ -190,5 +189,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract int getLayout();
+
     protected abstract void initEventAndData();
 }

@@ -7,12 +7,12 @@ public interface MonthDetailModel {
     /**
      * 每月账单详情
      */
-    void getMonthDetailBills(int id, String year, String month);
+    void getMonthDetailBills(String id, String year, String month);
 
     /**
      * 删除账单
      */
-    void delete(Long id);
+    void delete(String id);
 
     void update(BBill bBill);
 

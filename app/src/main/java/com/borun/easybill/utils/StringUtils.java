@@ -1,5 +1,7 @@
 package com.borun.easybill.utils;
 
+import org.bson.types.ObjectId;
+
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,5 +78,9 @@ public class StringUtils {
         blue = blue.length()==1 ? "0" + blue : blue ;
         //生成十六进制颜色值
         return "#"+red+green+blue;
+    }
+
+    public static String ObjectId(){
+        return ObjectId.get().toString();
     }
 }

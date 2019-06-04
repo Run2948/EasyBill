@@ -4,9 +4,9 @@ import com.borun.easybill.model.bean.local.BSort;
 import com.borun.easybill.model.bean.BaseBean;
 
 public class BSortBean extends BaseBean {
-    private Integer id;
+    private String _id;
 
-    private Integer uid;
+    private String uid;
 
     private String sortName;
 
@@ -26,14 +26,14 @@ public class BSortBean extends BaseBean {
         this.income = sort.getIncome();
     }
 
-    public BSortBean(Integer uid, String sortName, String sortImg, Boolean income) {
+    public BSortBean(String uid, String sortName, String sortImg, Boolean income) {
         this.uid = uid;
         this.sortName = sortName;
         this.sortImg = sortImg;
         this.income = income;
     }
-    public BSortBean(Integer id, Integer uid, String sortName, String sortImg, Integer priority, Boolean income) {
-        this.id = id;
+    public BSortBean(String id, String uid, String sortName, String sortImg, Integer priority, Boolean income) {
+        this._id = id;
         this.uid = uid;
         this.sortName = sortName;
         this.sortImg = sortImg;
@@ -43,19 +43,19 @@ public class BSortBean extends BaseBean {
 
 
 
-    public Integer getId() {
-        return id;
+    public String getId() {
+        return _id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this._id = id;
     }
 
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

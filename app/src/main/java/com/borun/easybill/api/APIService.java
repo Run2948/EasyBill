@@ -1,7 +1,11 @@
 package com.borun.easybill.api;
 
+import com.borun.easybill.common.Constants;
 import com.borun.easybill.common.HttpConfig;
 import com.borun.easybill.model.bean.BaseBean;
+import com.borun.easybill.model.bean.local.BBill;
+import com.borun.easybill.model.bean.local.BPay;
+import com.borun.easybill.model.bean.local.BSort;
 import com.borun.easybill.model.bean.local.NoteBean;
 import com.borun.easybill.model.bean.remote.BPayBean;
 import com.borun.easybill.model.bean.remote.BSortBean;
@@ -10,8 +14,12 @@ import com.borun.easybill.model.bean.remote.MonthChartBean;
 import com.borun.easybill.model.bean.remote.MonthDetailBean;
 import com.borun.easybill.model.bean.remote.UserBean;
 
+import java.util.List;
+
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -54,7 +62,7 @@ public interface APIService {
      * @return
      */
     @GET(HttpConfig.USER_UPDATE)
-    Observable<UserBean> updateUser(@Query("id") int id, @Query("username") String username
+    Observable<UserBean> updateUser(@Query("id") String id, @Query("username") String username
             , @Query("gender") String gender, @Query("phone") String phone, @Query("mail") String mail);
 
     /**
@@ -106,8 +114,8 @@ public interface APIService {
      * @return
      */
     @GET(HttpConfig.BILL_ADD)
-    Observable<BaseBean> addBill(@Query("userid") int userid, @Query("sortid") int sortid
-            , @Query("payid") int payid, @Query("cost") String cost
+    Observable<BaseBean> addBill(@Query("userid") String userid, @Query("sortid") String sortid
+            , @Query("payid") String payid, @Query("cost") String cost
             , @Query("content") String content, @Query("crdate") String crdate, @Query("income") boolean income);
 
     /**
@@ -124,8 +132,8 @@ public interface APIService {
      * @return
      */
     @GET(HttpConfig.BILL_UPDATE)
-    Observable<BaseBean> updateBill(@Query("id") int id, @Query("userid") int userid, @Query("sortid") int sortid
-            , @Query("payid") int payid, @Query("cost") String cost
+    Observable<BaseBean> updateBill(@Query("id") String id, @Query("userid") String userid, @Query("sortid") String sortid
+            , @Query("payid") String payid, @Query("cost") String cost
             , @Query("content") String content, @Query("crdate") String crdate, @Query("income") boolean income);
 
     /**
@@ -135,7 +143,7 @@ public interface APIService {
      * @return
      */
     @GET(HttpConfig.BILL_DELETE)
-    Observable<BaseBean> deleteBill(@Path("id") int id);
+    Observable<BaseBean> deleteBill(@Path("id") String id);
 
 
     /**
@@ -145,10 +153,11 @@ public interface APIService {
      * @return
      */
     @GET(HttpConfig.NOTE_USER)
-    Observable<NoteBean> getNote(@Path("id") int id);
+    Observable<NoteBean> getNote(@Path("id") String id);
 
     /**
      * 添加账单分类
+     *
      * @param uid
      * @param sortName
      * @param sortImg
@@ -156,11 +165,12 @@ public interface APIService {
      * @return
      */
     @GET(HttpConfig.NOTE_SORT_ADD)
-    Observable<BSortBean> addSort(@Query("uid") int uid, @Query("sortName") String sortName
+    Observable<BSortBean> addSort(@Query("uid") String uid, @Query("sortName") String sortName
             , @Query("sortImg") String sortImg, @Query("income") Boolean income);
 
     /**
      * 添加账单支付方式
+     *
      * @param uid
      * @param sortName
      * @param sortImg
@@ -168,8 +178,35 @@ public interface APIService {
      * @return
      */
     @GET(HttpConfig.NOTE_PAY_ADD)
-    Observable<BPayBean> addPay(@Query("uid") int uid, @Query("payName") String sortName
+    Observable<BPayBean> addPay(@Query("uid") String uid, @Query("payName") String sortName
             , @Query("payImg") String sortImg, @Query("payNum") String payNum);
 
 
+    /**
+     * 同步支付方式
+     *
+     * @param pays
+     * @return
+     */
+    //@body即非表单请求体，被@Body注解的ask将会被Gson转换成json发送到服务器，返回到Take。 其中返回类型为Call<*>，*是接收数据的类
+    @POST(Constants.NOTE_PAY_SYNC)
+    Observable<NoteBean> syncPay(@Query("uid") String uid,@Body List<BPay> pays);
+
+    /**
+     * 同步账单分类
+     *
+     * @param sorts
+     * @return
+     */
+    @POST(Constants.NOTE_SORT_SYNC)
+    Observable<NoteBean> syncSort(@Query("uid") String uid,@Body List<BSort> sorts);
+
+    /**
+     * 同步账单
+     *
+     * @param bills
+     * @return
+     */
+    @POST(Constants.BILL_SYNC)
+    Observable<List<BBill>> syncBill(@Query("uid") String uid,@Body List<BBill> bills);
 }

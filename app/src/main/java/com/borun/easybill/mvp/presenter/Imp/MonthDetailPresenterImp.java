@@ -39,12 +39,12 @@ public class MonthDetailPresenterImp extends MonthDetailPresenter implements Mon
     }
 
     @Override
-    public void getMonthDetailBills(int id, String year, String month) {
+    public void getMonthDetailBills(String id, String year, String month) {
         monthDetailModel.getMonthDetailBills(id,year,month);
     }
 
     @Override
-    public void deleteBill(Long id) {
+    public void deleteBill(String id) {
         monthDetailModel.delete(id);
     }
 

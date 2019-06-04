@@ -16,7 +16,7 @@ public interface BillModel {
     /**
      * 删除账单
      */
-    void delete(Long id);
+    void delete(String id);
 
     void onUnsubscribe();
 }

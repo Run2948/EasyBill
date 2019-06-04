@@ -1,160 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="#eeeeee"
-        tools:context=".activity.MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    tools:context=".activity.MainActivity">
 
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="2">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2">
+
         <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/colorPrimary"
-                android:layout_weight="1"/>
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary" />
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/ll_login_pane"
+        android:id="@+id/ll_login_pane"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/round_corner_bg"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/login_et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:background="@drawable/round_corner_bg">
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/selector_edittext_bg"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="邮箱"
+            android:inputType="textWebEmailAddress"
+            android:minHeight="45dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <EditText
-                android:id="@+id/login_et_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:inputType="textWebEmailAddress"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:minHeight="45dp"
-                android:drawableLeft="@android:drawable/sym_action_email"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:hint="邮箱"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:background="@drawable/selector_edittext_bg"/>
+            android:id="@+id/login_et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/selector_edittext_bg"
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="账户"
+            android:minHeight="45dp"
+            android:singleLine="true"
+            android:text="user01"
+            android:textSize="16sp" />
 
         <EditText
-                android:id="@+id/login_et_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:minHeight="45dp"
-                android:drawableLeft="@android:drawable/sym_action_email"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:hint="账户"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:background="@drawable/selector_edittext_bg"/>
+            android:id="@+id/login_et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/selector_edittext_bg"
+            android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:minHeight="45dp"
+            android:singleLine="true"
+            android:text="user01"
+            android:textSize="16sp" />
 
         <EditText
-                android:id="@+id/login_et_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:minHeight="45dp"
-                android:drawableLeft="@android:drawable/ic_lock_idle_lock"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:hint="密码"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:background="@drawable/selector_edittext_bg"/>
-
-        <EditText
-                android:id="@+id/login_et_rpassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:inputType="textPassword"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:minHeight="45dp"
-                android:drawableLeft="@android:drawable/ic_lock_idle_lock"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:hint="确认密码"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:background="@drawable/selector_edittext_bg"/>
+            android:id="@+id/login_et_rpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/selector_edittext_bg"
+            android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="确认密码"
+            android:inputType="textPassword"
+            android:minHeight="45dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#f3f3f3"/>
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f3f3f3" />
 
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#f7f7f7">
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#f7f7f7">
 
             <TextView
-                    android:id="@+id/login_tv_forget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:gravity="center"
-                    android:layout_centerVertical="true"
-                    android:text="忘记密码?"
-                    android:textSize="14sp"
-                    android:textColor="#999999"/>
+                android:id="@+id/login_tv_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:text="忘记密码?"
+                android:textColor="#999999"
+                android:textSize="14sp" />
 
             <Button
-                    android:id="@+id/login_btn_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:padding="8dp"
-                    android:gravity="center"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="登录"
-                    style="@style/Button.Default"/>
+                android:id="@+id/login_btn_login"
+                style="@style/Button.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="登录" />
 
             <TextView
-                    android:id="@+id/login_tv_sign"
-                    android:layout_toLeftOf="@id/login_btn_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:gravity="center"
-                    android:layout_centerVertical="true"
-                    android:text="注册"
-                    android:textSize="14sp"
-                    android:textColor="#999999"/>
+                android:id="@+id/login_tv_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/login_btn_login"
+                android:gravity="center"
+                android:text="注册"
+                android:textColor="#999999"
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
     <com.borun.easybill.widget.OwlView
-            android:id="@+id/owl_view"
-            android:layout_above="@id/ll_login_pane"
-            android:layout_width="175dp"
-            android:layout_height="107dp"
-            android:layout_centerHorizontal="true"/>
+        android:id="@+id/owl_view"
+        android:layout_width="175dp"
+        android:layout_height="107dp"
+        android:layout_above="@id/ll_login_pane"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
 

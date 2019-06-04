@@ -8,26 +8,26 @@ import org.greenrobot.greendao.annotation.Id;
  * 账单分类bean
  */
 @Entity
-public class BSort{
+public class BSort {
 
     @Id
-    private Long id;
+    private String _id;
+    private String uid;
     private String sortName;
     private String sortImg;
-    private float cost;
     private Boolean income;
 
     @Generated(hash = 2092983496)
     public BSort() {
     }
 
-    @Generated(hash = 1031921844)
-    public BSort(Long id, String sortName, String sortImg, float cost,
+    @Generated(hash = 1512215185)
+    public BSort(String _id, String uid, String sortName, String sortImg,
             Boolean income) {
-        this.id = id;
+        this._id = _id;
+        this.uid = uid;
         this.sortName = sortName;
         this.sortImg = sortImg;
-        this.cost = cost;
         this.income = income;
     }
 
@@ -55,19 +55,27 @@ public class BSort{
         this.income = income;
     }
 
-    public float getCost() {
-        return cost;
+    public String getId() {
+        return this._id;
     }
 
-    public void setCost(float cost) {
-        this.cost = cost;
+    public void setId(String id) {
+        this._id = id;
     }
 
-    public Long getId() {
-        return this.id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String get_id() {
+        return this._id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

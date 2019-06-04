@@ -28,7 +28,7 @@ public class MonthAccountPresenterImp extends MonthAccountPresenter implements M
 
 
     @Override
-    public void getMonthAccountBills(int id, String year, String month) {
+    public void getMonthAccountBills(String id, String year, String month) {
         model.getMonthAccountBills(id,year,month);
     }
 }

@@ -3,7 +3,7 @@ package com.borun.easybill.mvp.presenter;
 import com.borun.easybill.base.BasePresenter;
 import com.borun.easybill.model.bean.local.BBill;
 
-public abstract  class BillPresenter extends BasePresenter {
+public abstract class BillPresenter extends BasePresenter {
 
     /**
      * 获取信息
@@ -24,5 +24,5 @@ public abstract  class BillPresenter extends BasePresenter {
     /**
      * 删除账单
      */
-    public abstract void delete(Long id);
+    public abstract void delete(String id);
 }

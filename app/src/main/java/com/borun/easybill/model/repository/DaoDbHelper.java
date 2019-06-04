@@ -1,21 +1,23 @@
 package com.borun.easybill.model.repository;
 
 import android.database.sqlite.SQLiteDatabase;
+
 import com.borun.easybill.MyApplication;
 import com.borun.easybill.model.gen.DaoMaster;
 import com.borun.easybill.model.gen.DaoSession;
 
 public class DaoDbHelper {
-    private static final String DB_NAME = "CocoBill_DB";
+
+    private static final String DB_NAME = "EasyBill_DB";
 
     private static volatile DaoDbHelper sInstance;
     private SQLiteDatabase mDb;
     private DaoMaster mDaoMaster;
     private DaoSession mSession;
 
-    private DaoDbHelper(){
+    private DaoDbHelper() {
         //封装数据库的创建、更新、删除
-        DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(MyApplication.getContext(),DB_NAME,null);
+        DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(MyApplication.getContext(), DB_NAME, null);
         //获取数据库
         mDb = openHelper.getWritableDatabase();
         //封装数据库中表的创建、更新、删除
@@ -25,10 +27,10 @@ public class DaoDbHelper {
     }
 
 
-    public static DaoDbHelper getInstance(){
-        if (sInstance == null){
-            synchronized (DaoDbHelper.class){
-                if (sInstance == null){
+    public static DaoDbHelper getInstance() {
+        if (sInstance == null) {
+            synchronized (DaoDbHelper.class) {
+                if (sInstance == null) {
                     sInstance = new DaoDbHelper();
                 }
             }
@@ -36,15 +38,15 @@ public class DaoDbHelper {
         return sInstance;
     }
 
-    public DaoSession getSession(){
+    public DaoSession getSession() {
         return mSession;
     }
 
-    public SQLiteDatabase getDatabase(){
+    public SQLiteDatabase getDatabase() {
         return mDb;
     }
 
-    public DaoSession getNewSession(){
+    public DaoSession getNewSession() {
         return mDaoMaster.newSession();
     }
 }

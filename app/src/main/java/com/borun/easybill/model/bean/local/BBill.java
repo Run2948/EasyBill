@@ -1,21 +1,21 @@
 package com.borun.easybill.model.bean.local;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * 账单bean
  */
 @Entity
-public class BBill{
+public class BBill {
 
-    @Id(autoincrement = true)
-    private Long id;  //本地id
+    @Id
+    private String _id;  //本地id
     private int rid;  //服务器端id
     private float cost;  //金额
     private String content;  //内容
-    private int userid;  //用户id
+    private String userid;  //用户id
     private String payName;  //支付方式
     private String payImg;  //
     private String sortName;  //账单分类
@@ -27,10 +27,11 @@ public class BBill{
     @Generated(hash = 124482664)
     public BBill() {
     }
-    @Generated(hash = 712763217)
-    public BBill(Long id, int rid, float cost, String content, int userid, String payName, String payImg,
-                 String sortName, String sortImg, long crdate, boolean income, int version) {
-        this.id = id;
+
+    @Generated(hash = 445949505)
+    public BBill(String _id, int rid, float cost, String content, String userid, String payName, String payImg,
+            String sortName, String sortImg, long crdate, boolean income, int version) {
+        this._id = _id;
         this.rid = rid;
         this.cost = cost;
         this.content = content;
@@ -43,12 +44,13 @@ public class BBill{
         this.income = income;
         this.version = version;
     }
-    public Long getId() {
-        return id;
+
+    public String getId() {
+        return _id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(String id) {
+        this._id = id;
     }
 
     public int getRid() {
@@ -75,11 +77,11 @@ public class BBill{
         this.content = content;
     }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
@@ -127,10 +129,6 @@ public class BBill{
         return income;
     }
 
-    public void setIncome(boolean income) {
-        this.income = income;
-    }
-
     public int getVersion() {
         return version;
     }
@@ -138,7 +136,20 @@ public class BBill{
     public void setVersion(int version) {
         this.version = version;
     }
+
     public boolean getIncome() {
         return this.income;
+    }
+
+    public void setIncome(boolean income) {
+        this.income = income;
+    }
+
+    public String get_id() {
+        return this._id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

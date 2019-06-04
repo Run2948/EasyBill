@@ -170,7 +170,7 @@ public class MonthChartFragment extends BaseFragment
      * @param year
      * @param month
      */
-    private void getChartData(int userid, String year, String month) {
+    private void getChartData(String userid, String year, String month) {
 //        if (currentUser==null){
 //            Toast.makeText(getContext(), "请先登陆", Toast.LENGTH_SHORT).show();
 //            return;

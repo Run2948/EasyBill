@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
-            android:name="com.borun.easybill.MyApplication"
+            android:name=".MyApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
@@ -29,7 +29,7 @@
             android:theme="@style/AppTheme">
         <!--闪屏页-->
         <activity
-                android:name="com.borun.easybill.ui.activity.SplashActivity"
+                android:name=".ui.activity.SplashActivity"
                 android:theme="@style/SplashTheme"
                 android:screenOrientation="portrait">
             <intent-filter>
@@ -40,53 +40,53 @@
         </activity>
         <!--主页-->
         <activity
-                android:name="com.borun.easybill.ui.activity.MainActivity"
+                android:name=".ui.activity.MainActivity"
                 android:launchMode="singleTop"
                 android:screenOrientation="portrait">
         </activity>
         <!--添加账单-->
         <activity
-                android:name="com.borun.easybill.ui.activity.BillAddActivity"
+                android:name=".ui.activity.BillAddActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--编辑账单-->
         <activity
-                android:name="com.borun.easybill.ui.activity.BillEditActivity"
+                android:name=".ui.activity.BillEditActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--编辑账单分类-->
         <activity
-                android:name="com.borun.easybill.ui.activity.SortEditActivity"
+                android:name=".ui.activity.SortEditActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--编辑账单支付方式-->
         <activity
-                android:name="com.borun.easybill.ui.activity.PayEditActivity"
+                android:name=".ui.activity.PayEditActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--登陆注册-->
         <activity
-                android:name="com.borun.easybill.ui.activity.LoginActivity"
+                android:name=".ui.activity.LoginActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--个人信息-->
         <activity
-                android:name="com.borun.easybill.ui.activity.UserInfoActivity"
+                android:name=".ui.activity.UserInfoActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--忘记密码-->
         <activity
-                android:name="com.borun.easybill.ui.activity.ForgetPasswordActivity"
+                android:name=".ui.activity.ForgetPasswordActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--设置-->
         <activity
-                android:name="com.borun.easybill.ui.activity.SettingActivity"
+                android:name=".ui.activity.SettingActivity"
                 android:screenOrientation="portrait">
         </activity>
         <!--关于-->
         <activity
-                android:name="com.borun.easybill.ui.activity.AboutActivity"
+                android:name=".ui.activity.AboutActivity"
                 android:screenOrientation="portrait">
         </activity>
 

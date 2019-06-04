@@ -6,17 +6,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import butterknife.OnFocusChange;
-
 import com.borun.easybill.R;
 import com.borun.easybill.model.bean.remote.UserBean;
 import com.borun.easybill.mvp.presenter.Imp.UserLogPresenterImp;
 import com.borun.easybill.mvp.presenter.UserLogPresenter;
-import com.borun.easybill.utils.*;
 import com.borun.easybill.mvp.view.UserLogView;
+import com.borun.easybill.utils.ProgressUtils;
+import com.borun.easybill.utils.SharedPUtils;
+import com.borun.easybill.utils.SnackbarUtils;
+import com.borun.easybill.utils.StringUtils;
 import com.borun.easybill.widget.OwlView;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 /**
  * Created by Qing on 2017/12/8.
@@ -150,6 +153,10 @@ public class LoginActivity extends BaseActivity implements UserLogView {
     @Override
     public void loadDataSuccess(UserBean tData) {
         ProgressUtils.dismiss();
+        if (tData.getStatus() == 200) {
+            SnackbarUtils.show(mContext, tData.getMessage());
+            return;
+        }
         if (isLogin) {
             if (tData.getState() == 1) {
                 SharedPUtils.setCurrentUser(mContext, tData);
@@ -164,10 +171,10 @@ public class LoginActivity extends BaseActivity implements UserLogView {
     }
 
 
-        @Override
-        public void loadDataError (Throwable throwable){
-            ProgressUtils.dismiss();
-            SnackbarUtils.show(mContext, throwable.getMessage());
-        }
-
+    @Override
+    public void loadDataError(Throwable throwable) {
+        ProgressUtils.dismiss();
+        SnackbarUtils.show(mContext, throwable.getMessage());
     }
+
+}

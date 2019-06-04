@@ -21,23 +21,23 @@ public class BBillBean extends BaseBean {
      * sort : {"id":72,"uid":0,"sortName":"偿还费用","sortImg":"changhuanfeiyong@2x.png","priority":0,"income":false}
      */
 
-    private int id;
+    private String _id;
     private double cost;
     private String content;
-    private int userid;
-    private int payid;
-    private int sortid;
+    private String userid;
+    private String payid;
+    private String sortid;
     private long crdate;
     private boolean income;
     private int version;
     private BSort sort;
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return _id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this._id = id;
     }
 
     public double getCost() {
@@ -56,27 +56,27 @@ public class BBillBean extends BaseBean {
         this.content = content;
     }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
-    public int getPayid() {
+    public String getPayid() {
         return payid;
     }
 
-    public void setPayid(int payid) {
+    public void setPayid(String payid) {
         this.payid = payid;
     }
 
-    public int getSortid() {
+    public String getSortid() {
         return sortid;
     }
 
-    public void setSortid(int sortid) {
+    public void setSortid(String sortid) {
         this.sortid = sortid;
     }
 

@@ -1,6 +1,7 @@
 package com.borun.easybill.ui.activity;
 
 import android.content.Intent;
+
 import com.borun.easybill.R;
 import com.borun.easybill.utils.ThemeManager;
 import com.daimajia.androidanimations.library.Techniques;
@@ -23,21 +24,21 @@ public class SplashActivity extends AwesomeSplash {
 
         //Customize Circular Reveal
         //设置主题颜色
-        String theme=ThemeManager.getInstance().getCurThemeName(this);
+        String theme = ThemeManager.getInstance().getCurThemeName(this);
         String[] themes = ThemeManager.getInstance().getThemes();
-        if(theme.equals(themes[0])){
+        if (theme.equals(themes[0])) {
             configSplash.setBackgroundColor(R.color.colorPrimary);
-        }else if(theme.equals(themes[1])){
+        } else if (theme.equals(themes[1])) {
             configSplash.setBackgroundColor(R.color.colorPrimaryBlack);
-        }else if(theme.equals(themes[2])){
+        } else if (theme.equals(themes[2])) {
             configSplash.setBackgroundColor(R.color.colorPrimaryGreen);
-        }else if(theme.equals(themes[3])){
+        } else if (theme.equals(themes[3])) {
             configSplash.setBackgroundColor(R.color.colorPrimaryBlue);
-        }else if(theme.equals(themes[4])){
+        } else if (theme.equals(themes[4])) {
             configSplash.setBackgroundColor(R.color.colorPrimaryPurple);
-        }else if(theme.equals(themes[5])){
+        } else if (theme.equals(themes[5])) {
             configSplash.setBackgroundColor(R.color.colorPrimaryOrange);
-        }else if(theme.equals(themes[6])){
+        } else if (theme.equals(themes[6])) {
             configSplash.setBackgroundColor(R.color.colorPrimaryBrown);
         }
         //configSplash.setBackgroundColor(R.color.colorPrimary); //any color you want form colors.xml
@@ -70,7 +71,7 @@ public class SplashActivity extends AwesomeSplash {
 
         //transit to another activity here
         //or do whatever you want
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }

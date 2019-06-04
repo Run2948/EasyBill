@@ -27,7 +27,7 @@ public class UserInfoPresenterImp extends UserInfoPresenter implements UserInfoM
     }
 
     @Override
-    public void update(int id, String username, String gengder, String phone, String mail) {
+    public void update(String id, String username, String gengder, String phone, String mail) {
         model.update(id,username,gengder,phone,mail);
     }
 }

@@ -54,12 +54,12 @@ public class NotePresenterImp extends NotePresenter implements NoteModelImp.Note
     }
 
     @Override
-    public void deleteSort(Long id) {
+    public void deleteSort(String id) {
         model.deleteSort(id);
     }
 
     @Override
-    public void deletePay(Long id) {
+    public void deletePay(String id) {
         model.deletePay(id);
     }
 }

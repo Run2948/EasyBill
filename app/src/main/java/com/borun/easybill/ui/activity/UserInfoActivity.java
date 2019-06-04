@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.borun.easybill.R;
 import com.borun.easybill.common.Constants;
 import com.borun.easybill.model.bean.remote.UserBean;
@@ -36,6 +36,7 @@ import com.borun.easybill.utils.SharedPUtils;
 import com.borun.easybill.utils.SnackbarUtils;
 import com.borun.easybill.utils.StringUtils;
 import com.borun.easybill.widget.CommonItemLayout;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 
 import java.io.File;
@@ -58,6 +59,13 @@ import okhttp3.Response;
  */
 public class UserInfoActivity extends BaseActivity implements UserInfoView {
 
+    protected static final int CHOOSE_PICTURE = 0;
+    protected static final int TAKE_PICTURE = 1;
+    protected static final int GENDER_MAN = 0;
+    protected static final int GENDER_FEMALE = 1;
+    private static final int CROP_SMALL_PICTURE = 2;
+    //图片路径
+    protected static Uri tempUri = null;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.rlt_update_icon)
@@ -72,23 +80,12 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
     CommonItemLayout phoneCL;
     @BindView(R.id.cil_email)
     CommonItemLayout emailCL;
-
     private UserInfoPresenter presenter;
-
     //选择图片来源
     private AlertDialog iconDialog;
     private AlertDialog genderDialog;
     private AlertDialog phoneDialog;
     private AlertDialog emailDialog;
-
-    protected static final int CHOOSE_PICTURE = 0;
-    protected static final int TAKE_PICTURE = 1;
-    protected static final int GENDER_MAN = 0;
-    protected static final int GENDER_FEMALE = 1;
-    private static final int CROP_SMALL_PICTURE = 2;
-
-    //图片路径
-    protected static Uri tempUri = null;
 
     @Override
     protected int getLayout() {
@@ -114,42 +111,45 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
             //加载到布局中
             initData();
             //加载当前头像
-            //Log.d(TAG, "initData: "+currentUser.getImage());
-            //Glide.with(mContext).load(Constants.BASE_URL+ Constants.IMAGE_USER + currentUser.getImage()).into(iconIv);
-            String imgPath = Environment
-                    .getExternalStorageDirectory().getAbsolutePath() + "/" + currentUser.getImage();
-            File file = new File(imgPath);
-            //判断头像文件是否存在
-            if (file.exists()) {
-                //加载本地图片
-                Glide.with(this).load(file).into(iconIv);
-            } else {
-                //加载网络图片到本地
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap bitmap = null;
-                        try {
-                            bitmap = Glide.with(UserInfoActivity.this)
-                                    .load(Constants.BASE_URL + Constants.IMAGE_USER + currentUser.getImage())
-                                    .asBitmap()
-                                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                                    .get();
-                            if (bitmap != null) {
-                                iconIv.setImageBitmap(bitmap);
-                                Log.i(TAG, "SD可写：" + Environment.getExternalStorageDirectory().canWrite() +
-                                        "SD可读：" + Environment.getExternalStorageDirectory().canRead());
-                                String imgPath = ImageUtils.savePhoto(bitmap, Environment
-                                        .getExternalStorageDirectory().getAbsolutePath(), currentUser.getImage());
+            if (!TextUtils.isEmpty(currentUser.getImage())) {
+                //Log.d(TAG, "initData: "+currentUser.getImage());
+                //Glide.with(mContext).load(Constants.BASE_URL+ Constants.IMAGE_USER + currentUser.getImage()).into(iconIv);
+                String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + currentUser.getImage();
+                File file = new File(imgPath);
+                //判断头像文件是否存在
+                if (file.exists()) {
+                    //加载本地图片
+                    Glide.with(this).load(file).into(iconIv);
+                } else {
+                    //加载网络图片到本地
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Bitmap bitmap = null;
+                            try {
+                                bitmap = Glide.with(UserInfoActivity.this)
+                                        .load(Constants.BASE_URL + Constants.IMAGE_USER + currentUser.getImage())
+                                        .asBitmap()
+                                        .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                        .get();
+                                if (bitmap != null) {
+                                    iconIv.setImageBitmap(bitmap);
+                                    Log.i(TAG, "SD可写：" + Environment.getExternalStorageDirectory().canWrite() +
+                                            "SD可读：" + Environment.getExternalStorageDirectory().canRead());
+                                    String imgPath = ImageUtils.savePhoto(bitmap, Environment
+                                            .getExternalStorageDirectory().getAbsolutePath(), currentUser.getImage());
 
-                                Log.i(TAG, imgPath);
+                                    Log.i(TAG, imgPath);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
-                }).start();
+                    }).start();
+                }
             }
+        } else {
+            iconIv.setImageResource(R.mipmap.ic_def_icon);
         }
 
         presenter = new UserInfoPresenterImp(this);
@@ -202,9 +202,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
         switch (view.getId()) {
             case R.id.rlt_update_icon:  //头像
 //                showIconDialog();
-                startActivityForResult(
-                        new Intent(Intent.ACTION_GET_CONTENT).setType("image/*"),
-                        CHOOSE_PICTURE);
+                startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).setType("image/*"),CHOOSE_PICTURE);
                 break;
             case R.id.cil_username:  //用户名
                 SnackbarUtils.show(mContext, "江湖人行不更名，坐不改姓！");
@@ -261,13 +259,13 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case GENDER_MAN: // 男性
-                                    if (currentUser.getGender().equals("女")) {
+                                    if (TextUtils.isEmpty(currentUser.getGender()) || currentUser.getGender().equals("女")) {
                                         currentUser.setGender("男");
                                         doUpdate();
                                     }
                                     break;
                                 case GENDER_FEMALE: // 女性
-                                    if (currentUser.getGender().equals("男")) {
+                                    if (TextUtils.isEmpty(currentUser.getGender()) || currentUser.getGender().equals("男")) {
                                         currentUser.setGender("女");
                                         doUpdate();
                                     }
@@ -414,17 +412,14 @@ public class UserInfoActivity extends BaseActivity implements UserInfoView {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
-        Intent openCameraIntent = new Intent(
-                MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = new File(Environment.getExternalStorageDirectory(), "image.jpg");
         //判断是否是AndroidN以及更高的版本
         if (Build.VERSION.SDK_INT >= 24) {
             openCameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            tempUri = FileProvider.getUriForFile(UserInfoActivity.this,
-                    "com.borun.easybill.fileProvider", file);
+            tempUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.borun.easybill.fileProvider", file);
         } else {
-            tempUri = Uri.fromFile(new File(Environment
-                    .getExternalStorageDirectory(), "image.jpg"));
+            tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
         }
         // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);

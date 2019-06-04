@@ -6,30 +6,39 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import butterknife.BindView;
-import butterknife.OnClick;
+import android.widget.Toast;
+
 import com.borun.easybill.R;
-import com.borun.easybill.model.bean.local.BSort;
-import com.borun.easybill.ui.adapter.PayEditAdapter;
+import com.borun.easybill.common.Constants;
 import com.borun.easybill.model.bean.local.BPay;
+import com.borun.easybill.model.bean.local.BSort;
 import com.borun.easybill.model.bean.local.NoteBean;
 import com.borun.easybill.mvp.presenter.Imp.NotePresenterImp;
 import com.borun.easybill.mvp.presenter.NotePresenter;
-import com.borun.easybill.utils.*;
 import com.borun.easybill.mvp.view.NoteView;
+import com.borun.easybill.ui.adapter.PayEditAdapter;
+import com.borun.easybill.utils.GsonUtils;
+import com.borun.easybill.utils.ProgressUtils;
+import com.borun.easybill.utils.SharedPUtils;
+import com.borun.easybill.utils.SnackbarUtils;
+import com.borun.easybill.utils.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * Created by Qing on 2018/1/14.
  */
-public class PayEditActivity extends BaseActivity implements NoteView{
+public class PayEditActivity extends BaseActivity implements NoteView {
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -55,10 +64,11 @@ public class PayEditActivity extends BaseActivity implements NoteView{
         //隐藏中间支付类型选择按钮
         typeLayout.setVisibility(View.GONE);
         //初始化
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        presenter=new NotePresenterImp(this);
+        presenter = new NotePresenterImp(this);
+
+        noteBean = SharedPUtils.getUserNoteBean(this);
 
         //本地获取失败后
         if (noteBean == null) {
@@ -72,19 +82,17 @@ public class PayEditActivity extends BaseActivity implements NoteView{
 
     @Override
     public void loadDataSuccess(BSort tData) {
-
+        ProgressUtils.dismiss();
     }
 
     @Override
     public void loadDataSuccess(BPay tData) {
-        SharedPUtils.setUserNoteBean(mContext, (NoteBean) null);
         ProgressUtils.dismiss();
-        initEventAndData();
     }
 
     @Override
     public void loadDataSuccess(NoteBean tData) {
-        noteBean=tData;
+        noteBean = tData;
         //成功后加载布局
         setTitleStatus();
         //保存数据
@@ -94,14 +102,16 @@ public class PayEditActivity extends BaseActivity implements NoteView{
     @Override
     public void loadDataError(Throwable throwable) {
         ProgressUtils.dismiss();
-        SnackbarUtils.show(mContext,throwable.getMessage());
+        SnackbarUtils.show(mContext, throwable.getMessage());
     }
 
     /**
      * 设置状态
      */
     private void setTitleStatus() {
-        mDatas=noteBean.getPayinfo();
+
+        mDatas = noteBean.getPayinfo();
+
         initView();
     }
 
@@ -134,11 +144,11 @@ public class PayEditActivity extends BaseActivity implements NoteView{
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 //侧滑事件
-//                if (mDatas.get(viewHolder.getAdapterPosition()).getUid() > 0) {
-//                    showDeteteDialog(viewHolder.getAdapterPosition());
-//                } else {
-//                    Toast.makeText(mContext, "系统分类，不可删除", Toast.LENGTH_SHORT).show();
-//                }
+                if (!Constants.defaultUserId.equals(mDatas.get(viewHolder.getAdapterPosition()).getUid())) {
+                    showDeleteDialog(viewHolder.getAdapterPosition());
+                } else {
+                    Toast.makeText(mContext, "系统分类，不可删除", Toast.LENGTH_SHORT).show();
+                }
                 payEditAdapter.notifyDataSetChanged();
             }
 
@@ -156,8 +166,9 @@ public class PayEditActivity extends BaseActivity implements NoteView{
      * 保存修改
      */
     public void saveEdit() {
+        ProgressUtils.dismiss();
         noteBean.setPayinfo(mDatas);
-        SharedPUtils.setUserNoteBean(mContext, noteBean);
+        SharedPUtils.setUserNoteBean(PayEditActivity.this, noteBean);
     }
 
     /**
@@ -182,32 +193,24 @@ public class PayEditActivity extends BaseActivity implements NoteView{
      * 添加支付方式对话框
      */
     public void showContentDialog() {
-
-        ProgressUtils.show(mContext,"正在添加");
-
-        final LinearLayout layout=new LinearLayout(mContext);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        final EditText editText = new EditText(mContext);
-        editText.setHint("名称");
-//        final EditText editText1 = new EditText(mContext);
-//        editText1.setHint("备注");
-        layout.addView(editText);
-//        layout.addView(editText1);
+        final EditText editText = new EditText(PayEditActivity.this);
+        editText.setHint("支付方式名称：");
         //弹出输入框
         alertDialog = new AlertDialog.Builder(this)
                 .setTitle("支付方式")
-                .setView(layout)
+                .setView(editText)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String input = editText.getText().toString();
                         if (input.equals("")) {
                             SnackbarUtils.show(mContext, "内容不能为空！");
                         } else {
-//                            ProgressUtils.show(mContext);
+                            ProgressUtils.show(mContext, "正在添加...");
 //                            presenter.addPay(currentUser.getId(),input,"card_bank.png",editText1.getText().toString());
-                            BPay pay=new BPay(null,input,"card_bank.png",0,0);
-                            mDatas.add(pay);
+                            BPay pay = new BPay(StringUtils.ObjectId(), input, "card_bank.png", currentUser.getId());
                             presenter.addPay(pay);
+                            mDatas.add(pay);
+                            saveEdit();
                         }
                     }
                 })
@@ -219,7 +222,7 @@ public class PayEditActivity extends BaseActivity implements NoteView{
     /**
      * 显示删除确认框
      */
-    public void showDeteteDialog(final int index) {
+    public void showDeleteDialog(final int index) {
         //弹出输入框
         alertDialog = new AlertDialog.Builder(this)
                 .setTitle("确定删除此分类")
@@ -230,7 +233,11 @@ public class PayEditActivity extends BaseActivity implements NoteView{
                         saveEdit();
                     }
                 })
-                .setNegativeButton("取消", null)
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        payEditAdapter.notifyDataSetChanged();
+                    }
+                })
                 .show();
     }
 

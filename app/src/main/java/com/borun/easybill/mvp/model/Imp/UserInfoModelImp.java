@@ -21,14 +21,14 @@ public class UserInfoModelImp implements UserInfoModel {
     }
 
     @Override
-    public void update(int id, String username, String gengder, String phone, String mail) {
+    public void update(String id, String username, String gengder, String phone, String mail) {
         RetrofitFactory.getInstence().API()
                 .updateUser(id, username, gengder, phone, mail)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<UserBean>() {
                     @Override
-                    protected void onSuccees(UserBean userBean) throws Exception {
+                    protected void onSuccess(UserBean userBean) throws Exception {
                         listener.onSuccess(userBean);
                     }
 

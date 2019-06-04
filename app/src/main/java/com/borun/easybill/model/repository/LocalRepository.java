@@ -55,7 +55,7 @@ public class LocalRepository {
      * 批量添加账单
      * @param bBills
      */
-    public void saveBBills( List<BBill> bBills) {
+    public void saveBBills(List<BBill> bBills) {
        mSession.getBBillDao().insertInTx(bBills);
     }
 
@@ -90,21 +90,21 @@ public class LocalRepository {
     /******************************get**************************************/
     public BBill getBBillById(int id) {
         return mSession.getBBillDao().queryBuilder()
-                .where(BBillDao.Properties.Id.eq(id)).unique();
+                .where(BBillDao.Properties._id.eq(id)).unique();
     }
 
     public List<BBill> getBBills() {
         return mSession.getBBillDao().queryBuilder().list();
     }
 
-    public Observable<List<BBill>> getBBillByUserId(int id) {
+    public Observable<List<BBill>> getBBillByUserId(String id) {
         QueryBuilder<BBill> queryBuilder = mSession.getBBillDao()
                 .queryBuilder()
                 .where(BBillDao.Properties.Userid.eq(id));
         return queryListToRx(queryBuilder);
     }
 
-    public Observable<List<BBill>> getBBillByUserIdWithYM(int id, String year, String month) {
+    public Observable<List<BBill>> getBBillByUserIdWithYM(String id, String year, String month) {
         String startStr = year + "-" + month + "-00 00:00:00";
         Date date = DateUtils.str2Date(startStr);
         Date endDate = DateUtils.addMonth(date, 1);
@@ -168,7 +168,7 @@ public class LocalRepository {
      * 删除账单分类
      * @param id
      */
-    public void deleteBSortById(Long id){
+    public void deleteBSortById(String id){
         mSession.getBSortDao().deleteByKey(id);
     }
 
@@ -176,7 +176,7 @@ public class LocalRepository {
      * 删除账单支出方式
      * @param id
      */
-    public void deleteBPayById(Long id){
+    public void deleteBPayById(String id){
         mSession.getBPayDao().deleteByKey(id);
     }
 
@@ -195,7 +195,7 @@ public class LocalRepository {
         deleteBills(getBBills());
     }
 
-    public Observable<Long> deleteBBillById(Long id) {
+    public Observable<Long> deleteBBillById(String id) {
         mSession.getBBillDao().deleteByKey(id);
         return Observable.create(new ObservableOnSubscribe<Long>() {
             @Override

@@ -8,13 +8,13 @@ import com.borun.easybill.mvp.model.Imp.BillModelImp;
 import com.borun.easybill.mvp.presenter.BillPresenter;
 import com.borun.easybill.mvp.view.BillView;
 
-public class BillPresenterImp extends BillPresenter implements BillModelImp.BillOnListener{
+public class BillPresenterImp extends BillPresenter implements BillModelImp.BillOnListener {
 
     private BillModel model;
     private BillView view;
 
     public BillPresenterImp(BillView view) {
-        this.model=new BillModelImp(this);
+        this.model = new BillModelImp(this);
         this.view = view;
     }
 
@@ -49,7 +49,7 @@ public class BillPresenterImp extends BillPresenter implements BillModelImp.Bill
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         model.delete(id);
     }
 }

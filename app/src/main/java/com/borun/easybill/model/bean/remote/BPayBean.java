@@ -4,9 +4,10 @@ import com.borun.easybill.model.bean.local.BPay;
 import com.borun.easybill.model.bean.BaseBean;
 
 public class BPayBean extends BaseBean {
-    private Integer id;
 
-    private Integer uid;
+    private String _id;
+
+    private String uid;
 
     private String payName;
 
@@ -23,34 +24,34 @@ public class BPayBean extends BaseBean {
         this.payImg = pay.getPayImg();
     }
 
-    public BPayBean(Integer uid, String payName, String payImg, String payNum) {
+    public BPayBean(String uid, String payName, String payImg, String payNum) {
         this.uid = uid;
         this.payName = payName;
         this.payImg = payImg;
         this.payNum = payNum;
     }
 
-    public BPayBean(Integer id, Integer uid, String payName, String payImg, String payNum) {
-        this.id = id;
+    public BPayBean(String id, String uid, String payName, String payImg, String payNum) {
+        this._id = id;
         this.uid = uid;
         this.payName = payName;
         this.payImg = payImg;
         this.payNum = payNum;
     }
 
-    public Integer getId() {
-        return id;
+    public String getId() {
+        return _id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this._id = id;
     }
 
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

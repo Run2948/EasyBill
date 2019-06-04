@@ -12,26 +12,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.borun.easybill.R;
+import com.borun.easybill.model.bean.BaseBean;
 import com.borun.easybill.model.bean.local.BBill;
 import com.borun.easybill.model.bean.local.BSort;
 import com.borun.easybill.model.bean.local.NoteBean;
-import com.borun.easybill.ui.adapter.BookNoteAdapter;
-import com.borun.easybill.ui.adapter.MonthAccountAdapter;
-import com.borun.easybill.model.bean.*;
 import com.borun.easybill.mvp.presenter.BillPresenter;
 import com.borun.easybill.mvp.presenter.Imp.BillPresenterImp;
-import com.borun.easybill.utils.*;
+import com.borun.easybill.mvp.view.BillView;
+import com.borun.easybill.ui.adapter.BookNoteAdapter;
+import com.borun.easybill.ui.adapter.MonthAccountAdapter;
+import com.borun.easybill.utils.DateUtils;
+import com.borun.easybill.utils.ProgressUtils;
+import com.borun.easybill.utils.SharedPUtils;
+import com.borun.easybill.utils.SnackbarUtils;
+
+import org.bson.types.ObjectId;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.borun.easybill.mvp.view.BillView;
 
 import static com.borun.easybill.utils.DateUtils.FORMAT_M;
 import static com.borun.easybill.utils.DateUtils.FORMAT_Y;
@@ -39,8 +51,41 @@ import static com.borun.easybill.utils.DateUtils.FORMAT_Y;
 /**
  * 添加账单
  */
-public class BillAddActivity extends BaseActivity implements BillView{
+public class BillAddActivity extends BaseActivity implements BillView {
 
+    protected final int MAX_NUM = 9999999;    //最大整数
+    protected final int DOT_NUM = 2;          //小数部分最大位数
+    public boolean isOutcome = true;
+    //记录上一次点击后的分类
+    public BSort lastBean;
+    protected BillPresenter presenter;
+    //计算器
+    protected boolean isDot;
+    protected String num = "0";               //整数部分
+    protected String dotNum = ".00";          //小数部分
+    protected int count = 0;
+    //选择器
+    protected OptionsPickerView pvCustomOptions;
+    protected List<String> cardItem;
+    protected int selectedPayinfoIndex = 0;      //选择的支付方式序号
+    //viewpager数据
+    protected int page;
+    protected boolean isTotalPage;
+    protected int sortPage = -1;
+    protected List<BSort> mDatas;
+    protected List<BSort> tempList;
+    //备注对话框
+    protected AlertDialog alertDialog;
+    //选择时间
+    protected int mYear;
+    protected int mMonth;
+    protected int mDay;
+    protected String days;
+    //备注
+    protected String remarkInput = "";
+    protected NoteBean noteBean = null;
+    protected List<View> viewList;
+    protected ImageView[] icons;
     @BindView(R.id.tb_note_income)
     TextView incomeTv;    //收入按钮
     @BindView(R.id.tb_note_outcome)
@@ -60,45 +105,6 @@ public class BillAddActivity extends BaseActivity implements BillView{
     @BindView(R.id.layout_icon)
     LinearLayout layoutIcon;
 
-
-    protected BillPresenter presenter;
-
-
-    public boolean isOutcome = true;
-    //计算器
-    protected boolean isDot;
-    protected String num = "0";               //整数部分
-    protected String dotNum = ".00";          //小数部分
-    protected final int MAX_NUM = 9999999;    //最大整数
-    protected final int DOT_NUM = 2;          //小数部分最大位数
-    protected int count = 0;
-    //选择器
-    protected OptionsPickerView pvCustomOptions;
-    protected List<String> cardItem;
-    protected int selectedPayinfoIndex = 0;      //选择的支付方式序号
-    //viewpager数据
-    protected int page;
-    protected boolean isTotalPage;
-    protected int sortPage = -1;
-    protected List<BSort> mDatas;
-    protected List<BSort> tempList;
-    //记录上一次点击后的分类
-    public BSort lastBean;
-
-    //备注对话框
-    protected AlertDialog alertDialog;
-
-    //选择时间
-    protected int mYear;
-    protected int mMonth;
-    protected int mDay;
-    protected String days;
-
-    //备注
-    protected String remarkInput = "";
-    protected NoteBean noteBean = null;
-
-
     @Override
     protected int getLayout() {
         return R.layout.activity_add;
@@ -107,7 +113,7 @@ public class BillAddActivity extends BaseActivity implements BillView{
     @Override
     protected void initEventAndData() {
 
-        presenter=new BillPresenterImp(this);
+        presenter = new BillPresenterImp(this);
 
         //初始化分类数据
         initSortView();
@@ -123,7 +129,7 @@ public class BillAddActivity extends BaseActivity implements BillView{
 
     @Override
     public void loadDataSuccess(NoteBean tData) {
-        noteBean=tData;
+        noteBean = tData;
         //成功后加载布局
         setTitleStatus();
     }
@@ -139,19 +145,19 @@ public class BillAddActivity extends BaseActivity implements BillView{
     @Override
     public void loadDataError(Throwable throwable) {
         ProgressUtils.dismiss();
-        SnackbarUtils.show(mContext,throwable.getMessage());
+        SnackbarUtils.show(mContext, throwable.getMessage());
     }
 
     /**
      * 初始化分类数据
      */
     protected void initSortView() {
-        noteBean= SharedPUtils.getUserNoteBean(this);
+        noteBean = SharedPUtils.getUserNoteBean(this);
         //本地获取失败后
-        if (noteBean==null){
+        if (noteBean == null) {
             //同步获取分类、支付方式信息
             presenter.getNote();
-        }else {
+        } else {
             //成功后加载布局
             setTitleStatus();
         }
@@ -178,7 +184,7 @@ public class BillAddActivity extends BaseActivity implements BillView{
         initViewPager();
     }
 
-    protected void setTitle(){
+    protected void setTitle() {
         if (isOutcome) {
             //设置支付状态
             outcomeTv.setSelected(true);
@@ -197,10 +203,10 @@ public class BillAddActivity extends BaseActivity implements BillView{
         viewList = new ArrayList<>();// 创建一个View的集合对象
         //声明一个局部变量来存储分类集合
         //否则在收入支出类型切换时末尾一直添加选项
-        List<BSort> tempData=new ArrayList<>();
+        List<BSort> tempData = new ArrayList<>();
         tempData.addAll(mDatas);
         //末尾加上添加选项
-        tempData.add(new BSort(null,"添加", "sort_tianjia.png",0,null));
+        tempData.add(new BSort(null, currentUser.getId(), "添加", "sort_tianjia.png", null));
         if (tempData.size() % 15 == 0)
             isTotalPage = true;
         page = (int) Math.ceil(tempData.size() * 1.0 / 15);
@@ -223,13 +229,13 @@ public class BillAddActivity extends BaseActivity implements BillView{
                 @Override
                 public void OnClick(int index) {
                     //获取真实index
-                    index=index + viewpagerItem.getCurrentItem() * 15;
-                    if (index==mDatas.size()) {
+                    index = index + viewpagerItem.getCurrentItem() * 15;
+                    if (index == mDatas.size()) {
                         //修改分类
                         Intent intent = new Intent(BillAddActivity.this, SortEditActivity.class);
                         intent.putExtra("type", isOutcome);
                         startActivityForResult(intent, 0);
-                    } else{
+                    } else {
                         //选择分类
                         lastBean = mDatas.get(index);
                         sortTv.setText(lastBean.getSortName());
@@ -275,9 +281,6 @@ public class BillAddActivity extends BaseActivity implements BillView{
         });
         initIcon();
     }
-
-    protected List<View> viewList;
-    protected ImageView[] icons;
 
     /**
      * 添加账单分类指示器
@@ -392,8 +395,8 @@ public class BillAddActivity extends BaseActivity implements BillView{
                 selectedPayinfoIndex = options1;
                 cashTv.setText(cardItem.get(options1));
             }
-        })
-                .build();
+        }).build();
+
         pvCustomOptions.setPicker(cardItem);
         pvCustomOptions.show();
     }
@@ -402,6 +405,7 @@ public class BillAddActivity extends BaseActivity implements BillView{
      * 显示日期选择器
      */
     public void showTimeSelector() {
+
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -436,6 +440,7 @@ public class BillAddActivity extends BaseActivity implements BillView{
      * 显示备注内容输入框
      */
     public void showContentDialog() {
+
         final EditText editText = new EditText(BillAddActivity.this);
 
         editText.setText(remarkInput);
@@ -481,11 +486,12 @@ public class BillAddActivity extends BaseActivity implements BillView{
         }
 
         ProgressUtils.show(mContext, "正在提交...");
-        presenter.add(new BBill(null,0,Float.valueOf(num + dotNum),remarkInput,currentUser.getId(),
+
+        presenter.add(new BBill(ObjectId.get().toString(), 0, Float.valueOf(num + dotNum), remarkInput, currentUser.getId(),
                 noteBean.getPayinfo().get(selectedPayinfoIndex).getPayName(),
                 noteBean.getPayinfo().get(selectedPayinfoIndex).getPayImg(),
-                lastBean.getSortName(),lastBean.getSortImg(),
-                DateUtils.getMillis(crDate),!isOutcome,0));
+                lastBean.getSortName(), lastBean.getSortImg(),
+                DateUtils.getMillis(crDate), !isOutcome, 0));
     }
 
     /**

@@ -3,7 +3,6 @@ package com.borun.easybill.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import okhttp3.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,14 +11,28 @@ import java.io.InputStream;
 import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.util.Map;
+import java.util.concurrent.Executor;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by Qing on 2018/10/28.
  * OkHttp网络连接封装工具类
  */
 public class OkHttpUtils {
-    private OkHttpClient client;
+
     private static OkHttpUtils instance;
+    private OkHttpClient client;
 
     public OkHttpUtils() {
         client = new OkHttpClient();
@@ -27,10 +40,11 @@ public class OkHttpUtils {
 
     /**
      * 获取句柄
+     *
      * @return
      */
     public static OkHttpUtils getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OkHttpUtils();
         }
 
@@ -38,35 +52,54 @@ public class OkHttpUtils {
     }
 
     /**
+     * 判断网络是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
+
+    /**
      * post 请求
+     *
      * @param url
      * @param params
      * @param callback
      */
-    public void post(final String url, final Map<String, String> params, Callback callback) {
+    public void post(final String url, final Map<String, Object> params, Callback callback) {
         post(null, url, params, callback);
     }
 
     /**
      * post 请求
-     * @param context 发起请求的context
+     *
+     * @param context  发起请求的context
      * @param url
      * @param params
      * @param callback
      */
-    public void post(Context context, final String url, final Map<String, String> params,Callback callback ) {
+    public void post(Context context, final String url, final Map<String, Object> params, Callback callback) {
         //post builder 参数
         FormBody.Builder builder = new FormBody.Builder();
-        if(params != null && params.size() > 0) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                builder.add(entry.getKey(), entry.getValue());
+        if (params != null && params.size() > 0) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                builder.add(entry.getKey(), entry.getValue().toString());
             }
         }
 
         Request request;
 
         //发起request
-        if(context == null) {
+        if (context == null) {
             request = new Request.Builder()
                     .url(url)
                     .post(builder.build())
@@ -85,28 +118,30 @@ public class OkHttpUtils {
 
     /**
      * get 请求
-     * @param url url
-     * @param params 参数
+     *
+     * @param url      url
+     * @param params   参数
      * @param callback 回调
      */
-    public void get(final String url, final Map<String, String> params, Callback callback) {
+    public void get(final String url, final Map<String, Object> params, Callback callback) {
         get(null, url, params, callback);
     }
 
     /**
      * get 请求
-     * @param context 发起请求的context
-     * @param url url
-     * @param params 参数
+     *
+     * @param context  发起请求的context
+     * @param url      url
+     * @param params   参数
      * @param callback 回调
      */
-    public void get(Context context, final String url, final Map<String, String> params, Callback callback) {
+    public void get(Context context, final String url, final Map<String, Object> params, Callback callback) {
         //拼接url
         String get_url = url;
-        if(params != null && params.size() > 0) {
+        if (params != null && params.size() > 0) {
             int i = 0;
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                if(i++ == 0) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                if (i++ == 0) {
                     get_url = get_url + "?" + entry.getKey() + "=" + entry.getValue();
                 } else {
                     get_url = get_url + "&" + entry.getKey() + "=" + entry.getValue();
@@ -117,7 +152,7 @@ public class OkHttpUtils {
         Request request;
 
         //发起request
-        if(context == null) {
+        if (context == null) {
             request = new Request.Builder()
                     .url(get_url)
                     .build();
@@ -133,19 +168,21 @@ public class OkHttpUtils {
 
     /**
      * 上传文件
-     * @param url url
-     * @param files 上传的文件files
+     *
+     * @param url      url
+     * @param files    上传的文件files
      * @param callback 回调
      */
-    public void upload(String url, Map<String, File> files,Callback callback) {
+    public void upload(String url, Map<String, File> files, Callback callback) {
         upload(null, url, null, files, callback);
     }
 
     /**
      * 上传文件
-     * @param url url
-     * @param params 参数
-     * @param files 上传的文件files
+     *
+     * @param url      url
+     * @param params   参数
+     * @param files    上传的文件files
      * @param callback 回调
      */
     public void upload(String url, Map<String, String> params, Map<String, File> files, Callback callback) {
@@ -154,9 +191,10 @@ public class OkHttpUtils {
 
     /**
      * 上传文件
-     * @param context 发起请求的context
-     * @param url url
-     * @param files 上传的文件files
+     *
+     * @param context  发起请求的context
+     * @param url      url
+     * @param files    上传的文件files
      * @param callback 回调
      */
     public void upload(Context context, String url, Map<String, File> files, Callback callback) {
@@ -165,10 +203,11 @@ public class OkHttpUtils {
 
     /**
      * 上传文件
-     * @param context 发起请求的context
-     * @param url url
-     * @param params 参数
-     * @param files 上传的文件files
+     *
+     * @param context  发起请求的context
+     * @param url      url
+     * @param params   参数
+     * @param files    上传的文件files
      * @param callback 回调
      */
     public void upload(Context context, String url, Map<String, String> params, Map<String, File> files, Callback callback) {
@@ -196,7 +235,7 @@ public class OkHttpUtils {
         }
 
         Request request;
-        if(context == null) {
+        if (context == null) {
             request = new Request.Builder()
                     .url(url)
                     .post(multipartBuilder.build())
@@ -214,8 +253,9 @@ public class OkHttpUtils {
 
     /**
      * 下载文件
-     * @param url 下载地址
-     * @param filedir 下载目的目录
+     *
+     * @param url      下载地址
+     * @param filedir  下载目的目录
      * @param filename 下载目的文件名
      * @param callback 下载回调
      */
@@ -225,16 +265,17 @@ public class OkHttpUtils {
 
     /**
      * 下载文件
-     * @param context 发起请求的context
-     * @param url 下载地址
-     * @param filedir 下载目的目录
+     *
+     * @param context  发起请求的context
+     * @param url      下载地址
+     * @param filedir  下载目的目录
      * @param filename 下载目的文件名
      * @param callback 下载回调
      */
     public void download(Context context, String url, String filedir, String filename, Callback callback) {
 
         Request request;
-        if(context == null) {
+        if (context == null) {
             request = new Request.Builder()
                     .url(url)
                     .build();
@@ -262,23 +303,24 @@ public class OkHttpUtils {
 
     /**
      * 取消当前context的所有请求
+     *
      * @param context
      */
     public void cancel(Context context) {
-        if(client != null) {
-            for(Call call : client.dispatcher().queuedCalls()) {
-                if(call.request().tag().equals(context))
+        if (client != null) {
+            for (Call call : client.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals(context))
                     call.cancel();
             }
-            for(Call call : client.dispatcher().runningCalls()) {
-                if(call.request().tag().equals(context))
+            for (Call call : client.dispatcher().runningCalls()) {
+                if (call.request().tag().equals(context))
                     call.cancel();
             }
         }
     }
 
     //保存文件
-    private File saveFile(Response response, String filedir, String filename) throws IOException {
+    public File saveFile(Response response, String filedir, String filename) throws IOException {
         InputStream is = null;
         byte[] buf = new byte[2048];
         int len;
@@ -316,23 +358,5 @@ public class OkHttpUtils {
             contentTypeFor = "application/octet-stream";
         }
         return contentTypeFor;
-    }
-
-
-    /**
-     * 判断网络是否可用
-     * @param context
-     * @return
-     */
-    public static boolean isNetworkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
-        }
-        return false;
     }
 }

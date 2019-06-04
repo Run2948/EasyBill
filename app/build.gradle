@@ -12,7 +12,7 @@ android {
         //兼容Android6.0系统所需
         useLibrary 'org.apache.http.legacy'
         versionCode 1
-        versionName "1.2.0"
+        versionName "6.04.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // Enabling multidex support.
@@ -81,6 +81,11 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     // poi
     compile 'org.apache.poi:poi:3.17'
+    //  mongodb
+    compile 'org.mongodb:mongo-java-driver:3.0.3'
+    // xupdate
+    compile 'com.github.xuexiangjys:XUpdate:1.0.9'
+
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
 }

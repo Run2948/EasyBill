@@ -1,6 +1,6 @@
 package com.borun.easybill.model.bean;
 
-public class test {
+public class TestBean {
 
     /**
      * status : 100

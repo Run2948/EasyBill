@@ -34,7 +34,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
     public void onNext(T t) {
         onRequestEnd();
         try {
-            onSuccees(t);
+            onSuccess(t);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
      * @param t
      * @throws Exception
      */
-    protected abstract void onSuccees(T t) throws Exception;
+    protected abstract void onSuccess(T t) throws Exception;
 
     /**
      * 返回成功了,但是code错误 

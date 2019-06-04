@@ -21,13 +21,13 @@ public class MonthAccountModelImp implements MonthAccountModel {
 
 
     @Override
-    public void getMonthAccountBills(int id, String year, String month) {
+    public void getMonthAccountBills(String id, String year, String month) {
         LocalRepository.getInstance().getBBillByUserIdWithYM(id, year, month)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<BBill>>() {
                     @Override
-                    protected void onSuccees(List<BBill> bBills) throws Exception {
+                    protected void onSuccess(List<BBill> bBills) throws Exception {
                         listener.onSuccess(BillUtils.packageAccountList(bBills));
                     }
 

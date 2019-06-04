@@ -1,12 +1,15 @@
 package com.borun.easybill.ui.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +28,7 @@ import com.borun.easybill.utils.SnackbarUtils;
 import com.borun.easybill.utils.ToastUtils;
 import com.borun.easybill.widget.CommonItemLayout;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +43,6 @@ import okhttp3.Response;
  * Created by Qing on 2018/10/30.
  */
 public class SettingActivity extends BaseActivity {
-
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -109,10 +112,33 @@ public class SettingActivity extends BaseActivity {
                 startActivity(new Intent(this, PayEditActivity.class));
                 break;
             case R.id.cil_export:
-                String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/cocoBill.xls";
-                if (ExcelUtils.export(LocalRepository.getInstance().getBBills(), filename))
-                    SnackbarUtils.show(this, "导出成功,文件目录：" + filename);
-                else
+                String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/easyBill-" + System.currentTimeMillis() + ".xls";
+                if (ExcelUtils.export(LocalRepository.getInstance().getBBills(), filename)) {
+//                    SnackbarUtils.show(this, "导出成功,文件目录：" + filename);
+                    /**
+                     * 打开Excel文件的Intent
+                     * @param param
+                     * @return
+                     */
+                    try {
+                        Intent intent = new Intent("android.intent.action.VIEW");
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Uri uri;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//判断版本大于等于7.0
+                            // 通过FileProvider创建一个content类型的Uri
+                            uri = FileProvider.getUriForFile(mContext, "com.borun.easybill.fileProvider", new File(filename));
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);// 给目标应用一个临时授权
+                        } else {
+                            uri = Uri.fromFile(new File(filename));
+                        }
+                        intent.setDataAndType(uri, "application/vnd.ms-excel");
+                        //application/vnd.android.package-archive
+                        mContext.startActivity(intent);
+                    } catch (ActivityNotFoundException a) {
+                        a.getMessage();
+                    }
+                } else
                     SnackbarUtils.show(this, "导出失败");
                 break;
             default:
@@ -227,7 +253,7 @@ public class SettingActivity extends BaseActivity {
             return;
 
         ProgressUtils.show(mContext, "正在修改...");
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("username", currentUser.getUsername());
         params.put("password", currentUser.getPassword());
         params.put("code", "000000");

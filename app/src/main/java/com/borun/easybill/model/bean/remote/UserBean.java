@@ -3,7 +3,8 @@ package com.borun.easybill.model.bean.remote;
 import com.borun.easybill.model.bean.BaseBean;
 
 public class UserBean extends BaseBean {
-    private Integer id;
+
+    private String _id;
 
     private String username;
 
@@ -38,12 +39,12 @@ public class UserBean extends BaseBean {
         this.mail = mail;
     }
 
-    public Integer getId() {
-        return id;
+    public String getId() {
+        return _id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this._id = id;
     }
 
     public String getUsername() {

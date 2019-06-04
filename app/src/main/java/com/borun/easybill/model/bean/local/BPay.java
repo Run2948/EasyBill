@@ -11,25 +11,21 @@ import org.greenrobot.greendao.annotation.Id;
 public class BPay {
 
     @Id
-    private Long id;
+    private String _id;
     private String payName;
     private String payImg;
-
-    private float income;
-    private float outcome;
+    private String uid;
 
     @Generated(hash = 48271616)
     public BPay() {
     }
 
-    @Generated(hash = 572465971)
-    public BPay(Long id, String payName, String payImg, float income,
-            float outcome) {
-        this.id = id;
+    @Generated(hash = 2077662387)
+    public BPay(String _id, String payName, String payImg, String uid) {
+        this._id = _id;
         this.payName = payName;
         this.payImg = payImg;
-        this.income = income;
-        this.outcome = outcome;
+        this.uid = uid;
     }
 
     public String getPayName() {
@@ -48,27 +44,27 @@ public class BPay {
         this.payImg = payImg;
     }
 
-    public float getIncome() {
-        return income;
+    public String getId() {
+        return this._id;
     }
 
-    public void setIncome(float income) {
-        this.income = income;
+    public void setId(String id) {
+        this._id = id;
     }
 
-    public float getOutcome() {
-        return outcome;
+    public String getUid() {
+        return uid;
     }
 
-    public void setOutcome(float outcome) {
-        this.outcome = outcome;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public Long getId() {
-        return this.id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

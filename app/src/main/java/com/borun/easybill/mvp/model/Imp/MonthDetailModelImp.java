@@ -22,13 +22,13 @@ public class MonthDetailModelImp implements MonthDetailModel {
 
 
     @Override
-    public void getMonthDetailBills(int id, String year, String month) {
+    public void getMonthDetailBills(String id, String year, String month) {
         LocalRepository.getInstance().getBBillByUserIdWithYM(id, year, month)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<BBill>>() {
                     @Override
-                    protected void onSuccees(List<BBill> bBills) throws Exception {
+                    protected void onSuccess(List<BBill> bBills) throws Exception {
                         listener.onSuccess(BillUtils.packageDetailList(bBills));
                     }
 
@@ -41,13 +41,13 @@ public class MonthDetailModelImp implements MonthDetailModel {
 
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         LocalRepository.getInstance().deleteBBillById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<Long>() {
                     @Override
-                    protected void onSuccees(Long l) throws Exception {
+                    protected void onSuccess(Long l) throws Exception {
                         listener.onSuccess(new BaseBean());
                     }
 
@@ -70,7 +70,7 @@ public class MonthDetailModelImp implements MonthDetailModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<BBill>() {
                     @Override
-                    protected void onSuccees(BBill bBill) throws Exception {
+                    protected void onSuccess(BBill bBill) throws Exception {
                         listener.onSuccess(new BaseBean());
                     }
 
