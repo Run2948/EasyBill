@@ -8,6 +8,13 @@
 
 ### 版本日志
 
+v6.04.1:2019.06.04
+- 基于nodejs + Express + MongoDB 重新服务接口
+- 完善了检查更新更能
+- 添加了云同步功能
+- 修复了本地删除的Bug 
+- 后台地址(采用express框架)：[https://github.com/Run2948/nodeBillBook](https://github.com/Run2948/nodeBillBook)
+
 v1.2.0: 2018.10.03
 - 后台地址(采用ssm框架)：[https://github.com/Run2948/ssmBillBook](https://github.com/Run2948/ssmBillBook)
 
@@ -45,8 +52,8 @@ v0.3.1: 2017.12.28
 - [x] 自定义分类、支付方式。
 - [x] 统计功能。
 - [x] 换肤功能。
-- [ ] 检测更新。
-- [ ] 应用瘦身。
+- [x] 检测更新。
+- [x] 应用瘦身。
 - [ ] 密码锁功能。
 
 ### Thanks to

@@ -11,7 +11,7 @@ android {
         targetSdkVersion 25
         //兼容Android6.0系统所需
         useLibrary 'org.apache.http.legacy'
-        versionCode 1
+        versionCode 4
         versionName "6.04.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
