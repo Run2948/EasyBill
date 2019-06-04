@@ -3,7 +3,7 @@ package com.borun.easybill.common;
 public class Constants {
 
     //网络请求
-    public static final String BASE_URL = "http://v1574501x5.iok.la:40482";
+    public static final String BASE_URL = "http://129.28.189.106:8080";
 
     public static final String USER_LOGIN = "/api/user/login";
     public static final String USER_SIGN = "/api/user/sign";
@@ -28,7 +28,7 @@ public class Constants {
 
     public static final String USER_IMAGE_UPLOAD = "/api/file/upload/";
     public static final String CHECK_VERSION_URL = "/api/file/app";
-    
+
     public static final String IMAGE_USER = "/upload/";
     public static final String IMAGE_SORT = "/upload/noteImg/sort/";
     public static final String IMAGE_PAY = "/upload/noteImg/pay/";
