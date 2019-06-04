@@ -62,7 +62,6 @@
             android:hint="账户"
             android:minHeight="45dp"
             android:singleLine="true"
-            android:text="user01"
             android:textSize="16sp" />
 
         <EditText
@@ -80,7 +79,6 @@
             android:inputType="textPassword"
             android:minHeight="45dp"
             android:singleLine="true"
-            android:text="user01"
             android:textSize="16sp" />
 
         <EditText
