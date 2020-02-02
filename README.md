@@ -57,12 +57,12 @@ v0.3.1: 2017.12.28
 - [ ] 密码锁功能。
 
 ### Thanks to
- 1. butterknife: https://github.com/JakeWharton/butterknife
- 2. glide: https://github.com/bumptech/glide
- 3. okhttp: https://github.com/square/okhttp
- 4. MPAndroidChart: https://github.com/PhilJay/MPAndroidChart
- 5. Android-PickerView: https://github.com/Bigkoo/Android-PickerView
- 6. AwesomeSplash: https://github.com/ViksaaSkool/AwesomeSplash
+ 1. butterknife: <https://github.com/JakeWharton/butterknife>
+ 2. glide: <https://github.com/bumptech/glide>
+ 3. okhttp: <https://github.com/square/okhttp>
+ 4. MPAndroidChart: <https://github.com/PhilJay/MPAndroidChart>
+ 5. Android-PickerView: <https://github.com/Bigkoo/Android-PickerView>
+ 6. AwesomeSplash: <https://github.com/ViksaaSkool/AwesomeSplash>
 
 ### 更新.gitignore
  1. git rm -r --cached .                //清空缓存
